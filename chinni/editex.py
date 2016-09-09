@@ -1,6 +1,3 @@
-wordOne = ''
-wordTwo = ''
-
 def editexlettersCode(l1, l2):
 	num = [0, 0]
 	letters = [l1, l2]
@@ -67,6 +64,7 @@ suggestions = ['halo', 'held', 'hell', 'hello', 'helm', 'helot', 'help', 'hero']
 dist = []
 
 wordOne = incorr
+wordTwo = ''
 for sugg in suggestions:
 	wordTwo = sugg
 	val = editDistance(len(wordOne), len(wordTwo))
