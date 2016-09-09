@@ -70,6 +70,15 @@ for sugg in suggestions:
 	val = editDistance(len(wordOne), len(wordTwo))
 	dist.append(val)
 
+tempProbArray = []
+for d in dist:
+	tempProbArray.append(1/(d+0.5))
+
+sum_tempProbArray = sum(tempProbArray)
+probArray = []
+for p in tempProbArray:
+	probArray.append(p/sum_tempProbArray)
+
 print ('Incorrect word = ' + incorr)
 for i in range(len(suggestions)):
-	print ('Distance of ' + str(suggestions[i]) + ' = ' + str(dist[i]))
+	print ('Probability of ' + str(suggestions[i]) + ' = ' + str(probArray[i]))
