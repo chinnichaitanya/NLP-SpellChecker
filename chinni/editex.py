@@ -59,14 +59,20 @@ def editDistance(m, n):
 		tempArr = [distOne, distTwo, distThree]
 		return min(tempArr)
 
-incorr = 'helo'
-suggestions = ['halo', 'held', 'hell', 'hello', 'helm', 'helot', 'help', 'hero']
+# incorr = 'helo'
+# suggestions = ['halo', 'held', 'hell', 'hello', 'helm', 'helot', 'help', 'hero']
+# incorr = 'pease'
+# suggestions = ['pease', 'cease', 'ease', 'lease', 'peace', 'peas', 'phase', 'please', 'tease']
+incorr = 'comitte'
+suggestions = ['comity', 'committed', 'committee', 'commute', 'compute']
+
+
 dist = []
 
-wordOne = incorr
+wordOne = incorr.lower()
 wordTwo = ''
 for sugg in suggestions:
-	wordTwo = sugg
+	wordTwo = sugg.lower()
 	val = editDistance(len(wordOne), len(wordTwo))
 	dist.append(val)
 
