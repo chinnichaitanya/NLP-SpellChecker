@@ -167,6 +167,10 @@ def levenshtein_edits(s, t):
               k = k-1; l = l-1
               if not (edits(t[l],s[k],"Substitution") in edit_list) :
                 edit_list.append(edits(t[l],s[k],"Substitution"))
+                # print "Printing from substitution"
+                # print t[l]
+                # print s
+                # print s[k]
           elif (temp_min == d[k][l-1]):
             l = l-1
             if not (edits(t[l-1:l+1],t[l-1],"Removal") in edit_list) :
@@ -177,13 +181,11 @@ def levenshtein_edits(s, t):
                 edit_list.append(edits(t[l-1],t[l-1]+s[k],"Addition"))
         else:
           if x_flag:
-            print "x_flag was helpful!"
             l=l-1
             if not (edits(t[l-1:l+1],t[l-1],"Removal") in edit_list) :
                 edit_list.append(edits(t[l-1:l+1],t[l-1],"Removal"))
           if y_flag:
-            k = k-1
-            print "y_flag was helpful!"         
+            k = k-1        
     return edit_list
 
 def dict_words(dictfile="/usr/share/dict/american-english"):
@@ -209,14 +211,21 @@ tree =pickle.load(pkl_file)
    # pickle.dump( tree, open( "save.p", "wb" ) )
 load_finish = time.time()
 start = time.time()
-candidates = tree.query("peases",2) 
-print candidates
+candidates = tree.query("peases",2)
+print candidates[0][1]
+# print candidates
 
 for candidate in candidates:
     candidate_edit_list = []
-    candidate_edit_list = levenshtein_edits(candidate,"peases")
-    print candidate_edit_list
+    candidate_edit_list = levenshtein_edits(candidate[1],"peases")
+    print candidate
+    for each_edit in candidate_edit_list:
+        print each_edit.error +","+ each_edit.correction+","+each_edit.edit_Type
 end = time.time()
+print "Performance Statistics"
+print "Execution Time"
 print end-start
+print "Pickle Load Time"
 print load_finish-load_time
-
+print "Total Time"
+print end-start+load_finish-load_time
