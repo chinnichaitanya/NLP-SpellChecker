@@ -92,21 +92,22 @@ def maxdepth(tree, count=0):
 def levenshtein(s, t):
     m, n = len(s), len(t)
     d = [range(n+1)]
-    d += [[i] for i in range(1,m+1)]
-    for i in range(0,m):
-        for j in range(0,n):
+    d += [[i] for i in range(1, m+1)]
+    for i in range(0, m):
+        for j in range(0, n):
             cost = 1
-            if s[i] == t[j]: cost = 0
+            if s[i] == t[j]: 
+                cost = 0
 
-            d[i+1].append( min(d[i][j+1]+1, # deletion
-                               d[i+1][j]+1, #insertion
-                               d[i][j]+cost) #substitution
-                           )
+            d[i+1].append(min(d[i][j+1]+1, # deletion
+                           d[i+1][j]+1, #insertion
+                           d[i][j]+cost) #substitution
+                       )
     return d[m][n]
 
 
 def dict_words(dictfile="./american-english"):
-    "Return an iterator that produces words in the given dictionary."
+    # Return an iterator that produces words in the given dictionary.
     return filter(len, map(str.strip, open(dictfile)))
 
 
@@ -121,7 +122,7 @@ def timeof(fn, *args):
 
 if __name__ == "__main__":
     tree = BKTree(levenshtein, dict_words('./american-english'))
-    pickle.dump( tree, open( "save.p", "wb" ) )
+    pickle.dump(tree, open("BKTree", "wb"))
 
 
 print ("Done baby!!")

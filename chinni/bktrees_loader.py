@@ -1,6 +1,7 @@
 import pickle
 import time
 import sys
+
 class BKTree:
     def __init__(self, distfn, words):
         """
@@ -119,9 +120,8 @@ def timeof(fn, *args):
 if __name__ == "__main__":
     load_time = time.time()
 
-pkl_file = open('save.p', 'rb')
+pkl_file = open("BKTree", "rb")
 tree = pickle.load(pkl_file)
-# pickle.dump(tree, open( "save.p", "wb" ))
 
 load_finish = time.time()
 start = time.time()
