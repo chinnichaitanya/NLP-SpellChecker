@@ -78,7 +78,7 @@ def levenshtein_edits(s, t):
           temp_min = d[k-1][l]; y_flag=1
         else:
           temp_min = min(d[k-1][l],d[k][l-1],d[k-1][l-1]); x_flag=0; y_flag=0;another_flag=0;another_flag_2=0
-        if (not (x_flag or y_flag or another_flag or another_flag_2)):
+        if (not (another_flag or another_flag_2)):
           if (temp_min == d[k-1][l-1]):
             if(s[k-1] == t[l-1]):
               k = k-1; l = l-1
@@ -98,13 +98,7 @@ def levenshtein_edits(s, t):
             k = k-1
             if not (edits(t[l-1],t[l-1]+s[k],"Addition") in edit_list) :
                 edit_list.append(edits(t[l-1],t[l-1]+s[k],"Addition"))
-        else:
-          if x_flag:
-            l=l-1
-            if not (edits(t[l-1:l+1],t[l-1],"Removal") in edit_list) :
-                edit_list.append(edits(t[l-1:l+1],t[l-1],"Removal"))
-          if y_flag:
-            k = k-1        
+
     return edit_list
 
 def detectSingleReversal(incorr, candidate):
@@ -121,12 +115,15 @@ def detectSingleReversal(incorr, candidate):
         return (r1, r2, False)
     else:
         if(sumOfAsciDiff == 0):
-            for i in asciDiff:
-                if(i != 0):
+            for i in range(len(asciDiff)):
+                if(asciDiff[i] != 0):
                     if(r1 != 0): 
-                        r1 = i
+                        r1 = incorr[i]
+                        r2 = candidate[i]
                     else: 
-                        r2 = i 
+                        if(r1 != candidate[i]):
+                            return(r1, r2, False)
+
             return (r1, r2, True)
         else:
             return (r1, r2, False)

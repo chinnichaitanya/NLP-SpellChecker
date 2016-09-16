@@ -54,7 +54,7 @@ timeBayesianProbArray = time.time() - t
 # calculating the total probability
 t = time.time()
 totalProbabilityArray = [p+b for p, b in zip(phoneticProbabilityArray, bayesianProbabilityArray)]
-# totalProbabilityArray = [1*b for b in phoneticProbabilityArray]
+# totalProbabilityArray = [1*b for b in bayesianProbabilityArray]
 tempSum = sum(totalProbabilityArray)
 for i in range(0, len(collectionSet)):
 	totalProbabilityArray[i] /= tempSum
@@ -72,7 +72,7 @@ timeSortTotalDict = time.time() - t
 
 print('\nBelow are the suggestions for the word: ' + incorrectWord)
 for i in range(0, min(10, len(collectionSet)-1)):
-	print(totalDict[i][0], totalDict[i][1])
+	print(str(totalDict[i][0]) + '\t' + str(round(100*totalDict[i][1], 2)) + '%\t Rank #' + str(i+1))
 
 print('\n\n##### Times ####')
 print('Time for generating collection set: ' + str(timeCollectionSet))
