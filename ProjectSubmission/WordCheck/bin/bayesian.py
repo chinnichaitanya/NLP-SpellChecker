@@ -107,6 +107,31 @@ def levenshtein_edits(s, t):
             k = k-1        
     return edit_list
 
+def detectSingleReversal(incorr, candidate):
+    r1 = 0
+    r2 = 0
+    if(len(incorr) != len(candidate)):
+        return (r1, r2, False)
+    
+    asciDiff = [ord(a)-ord(b) for a, b in zip(incorr, candidate)]
+
+    sumOfAsciDiff = sum(asciDiff)
+    absSumOfAsciDiff = sum([abs(num) for num in asciDiff])
+    if(absSumOfAsciDiff == 0):
+        return (r1, r2, False)
+    else:
+        if(sumOfAsciDiff == 0):
+            for i in asciDiff:
+                if(i != 0):
+                    if(r1 != 0): 
+                        r1 = i
+                    else: 
+                        r2 = i 
+            return (r1, r2, True)
+        else:
+            return (r1, r2, False)
+
+
 # candidates=[{'word':'hello','del1':'ll','del2':0,'sub1':'la','sub2':0,'ins1':0,'ins2':0,'rev1':0,'rev2':0,'score':0},
 #             {'word':'held','del1':0,'del2':0,'sub1':'od','sub2':0,'ins1':0,'ins2':0,'rev1':0,'rev2':0,'score':0}]
 
@@ -169,13 +194,18 @@ def get_bayesian_probabilities(incorr, suggestions):
         each_candi = {'word':0, 'del1':0, 'del2':0, 'sub1':0, 'sub2':0, 'ins1':0, 'ins2':0, 'rev1':0, 'rev2':0, 'score':0}
         each_candi['word'] = suggestions[i]
 
-        list = levenshtein_edits(incorr, suggestions[i])
-        
+        detectReversal = detectSingleReversal(incorr, suggestions[i])
+        if(detectReversal[2] == False):
+            list = levenshtein_edits(incorr, suggestions[i])
+        else:
+            list = [[detectReversal[0], detectReversal[1], "Reversal"]]
+
         # for each error type in a word, looping through errors
         for j in range(len(list)):
             s = 0
             r = 0
             a = 0
+            rev = 0
 
             if list[j][2] == 'Substitution':
                 if s == 0:
@@ -200,6 +230,14 @@ def get_bayesian_probabilities(incorr, suggestions):
                 else:
                     if a == 1:
                         each_candi['ins2'] = list[j][1]        
+
+            if list[j][2] == 'Reversal':
+                if a == 0:
+                    each_candi['rev1'] = list[j][0]
+                    a = a + 1
+                else:
+                    if a == 1:
+                        each_candi['rev2'] = list[j][1]        
 
 
         candidates.append(each_candi)
