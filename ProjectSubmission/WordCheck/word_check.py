@@ -31,7 +31,7 @@ editDistance = 2
 t = time.time()
 bkTree = fetch_bkTree_data()
 timeBkTree = time.time() - t
-print('Time taken to load the BK-Tree: ' + str(timeBkTree) + '\n')
+print('Time taken to load the BK-Tree: ' + str(round(timeBkTree, 4)) + '\n')
 
 # taking the incorrect word
 incorrectWord = input('Please enter the incorrect word: ')
@@ -53,7 +53,7 @@ timeBayesianProbArray = time.time() - t
 
 # calculating the total probability
 t = time.time()
-totalProbabilityArray = [p+b for p, b in zip(phoneticProbabilityArray, bayesianProbabilityArray)]
+totalProbabilityArray = [0.1*p+0.9*b for p, b in zip(phoneticProbabilityArray, bayesianProbabilityArray)]
 # totalProbabilityArray = [1*b for b in bayesianProbabilityArray]
 tempSum = sum(totalProbabilityArray)
 for i in range(0, len(collectionSet)):
@@ -70,9 +70,11 @@ t = time.time()
 totalDict = sorted(totalDict, key=lambda x: x[1], reverse=True)
 timeSortTotalDict = time.time() - t
 
-print('\nBelow are the suggestions for the word: ' + incorrectWord)
+print('\nBelow are the suggestions for the word: ' + incorrectWord + '\n')
+print('Word\t\tProbability\t Rank')
+print('~~~~\t\t~~~~~~~~~~~\t ~~~~')
 for i in range(0, min(10, len(collectionSet)-1)):
-	print(str(totalDict[i][0]) + '\t' + str(round(100*totalDict[i][1], 2)) + '%\t Rank #' + str(i+1))
+	print(str(totalDict[i][0]) + '\t\t' + str(round(100*totalDict[i][1], 2)) + '%\t\t Rank #' + str(i+1))
 
 print('\n\n##### Times (in sec) ####')
 print('Time for generating collection set:\t' + str(round(timeCollectionSet, 4)))
