@@ -65,7 +65,7 @@ def editDistance(s, t):
             elif(i==0):
             	memo[i][j] = memo[i][j-1] + d(t[j-1], t[j])
             else:
-            	memo[i][j]=min(memo[i-1][j]+d(s[i-1], s[i]),
+            	memo[i][j] = min(memo[i-1][j]+d(s[i-1], s[i]),
                                memo[i][j-1]+d(t[j-1], t[j]), 
                                memo[i-1][j-1]+r(s[i], t[j]))
     return memo[m-1][n-1]
