@@ -169,7 +169,7 @@ def get_bayesian_probabilities(incorr, suggestions):
         each_candi = {'word':0, 'del1':0, 'del2':0, 'sub1':0, 'sub2':0, 'ins1':0, 'ins2':0, 'rev1':0, 'rev2':0, 'score':0}
         each_candi['word'] = suggestions[i]
 
-        list=levenshtein_edits(incorr, suggestions[i])
+        list = levenshtein_edits(incorr, suggestions[i])
         
         # for each error type in a word, looping through errors
         for j in range(len(list)):
