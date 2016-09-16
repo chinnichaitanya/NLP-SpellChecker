@@ -43,7 +43,7 @@ timeCollectionSet = time.time() - t
 
 # calculating the phonetic probability of candidates
 t = time.time()
-# phoneticProbabilityArray = get_phonetic_probabilities(incorrectWord, collectionSet)
+phoneticProbabilityArray = get_phonetic_probabilities(incorrectWord, collectionSet)
 timePhoneticProbArray = time.time() - t
 # calculating the bayesian porbability of candidates
 t = time.time()
@@ -52,8 +52,8 @@ timeBayesianProbArray = time.time() - t
 
 # calculating the total probability
 t = time.time()
-# totalProbabilityArray = [p*b for p, b in zip(phoneticProbabilityArray, bayesianProbabilityArray)]
-totalProbabilityArray = [1*b for b in bayesianProbabilityArray]
+totalProbabilityArray = [p*b for p, b in zip(phoneticProbabilityArray, bayesianProbabilityArray)]
+# totalProbabilityArray = [1*b for b in bayesianProbabilityArray]
 tempSum = sum(totalProbabilityArray)
 for i in range(0, len(collectionSet)):
 	totalProbabilityArray[i] /= tempSum

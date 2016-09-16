@@ -1,4 +1,5 @@
 import time
+# from numpy import *
 
 def editexlettersCode(l1, l2):
 	num = [0, 0]
@@ -47,17 +48,40 @@ def r(a, b):
 	else:
 		return 2
 
-def editDistance(m, n, wordOne, wordTwo):
+def editDistance(s, t):
+    m, n = len(s), len(t)
+    memo = []
+    for l in range(0, m):
+    	temp = []
+    	for k in range(0, n):
+    		temp.append(0)
+    	memo.append(temp)
+    for i in range(0, m):
+        for j in range(0, n):
+            if(i==0 and j==0):
+            	memo[i][j] = r(s[0], t[0])
+            elif(j==0):
+            	memo[i][j] = memo[i-1][j] + d(s[i-1], s[i])
+            elif(i==0):
+            	memo[i][j] = memo[i][j-1] + d(t[j-1], t[j])
+            else:
+            	memo[i][j]=min(memo[i-1][j]+d(s[i-1], s[i]),
+                               memo[i][j-1]+d(t[j-1], t[j]), 
+                               memo[i-1][j-1]+r(s[i], t[j]))
+    return memo[m-1][n-1]
+
+
+def editDistance_2(m, n, wordOne, wordTwo):
 	if(m == 0 and n == 0):
 		return 0
 	elif(n == 0):
-		return editDistance(m-1, 0, wordOne, wordTwo) + d(wordOne[m-2], wordOne[m-1])
+		return editDistance(m-1, 0, wordOne, wordTwo) + d(wordOne[m-1], wordOne[m])
 	elif(m == 0):
-		return editDistance(0, n-1, wordOne, wordTwo) + d(wordTwo[n-2], wordTwo[n-1])
+		return editDistance(0, n-1, wordOne, wordTwo) + d(wordTwo[n-1], wordTwo[n])
 	else:
-		distOne = editDistance(m-1, n, wordOne, wordTwo) + d(wordOne[m-2], wordOne[m-1])
-		distTwo = editDistance(m, n-1, wordOne, wordTwo) + d(wordTwo[n-2], wordTwo[n-1])
-		distThree = editDistance(m-1, n-1, wordOne, wordTwo) + r(wordOne[m-2], wordTwo[n-2])
+		distOne = editDistance(m-1, n, wordOne, wordTwo) + d(wordOne[m-1], wordOne[m])
+		distTwo = editDistance(m, n-1, wordOne, wordTwo) + d(wordTwo[n-1], wordTwo[n])
+		distThree = editDistance(m-1, n-1, wordOne, wordTwo) + r(wordOne[m], wordTwo[n])
 		tempArr = [distOne, distTwo, distThree]
 		return min(tempArr)
 
@@ -69,9 +93,10 @@ def get_phonetic_probabilities(incorr, suggestions):
 
 	for sugg in suggestions:
 		wordTwo = sugg.lower()
-		t = time.time()
-		val = editDistance(len(wordOne), len(wordTwo), wordOne, wordTwo)
-		print('Time for "' + sugg + '" : ' + str(time.time()-t) + '\n')
+		# t = time.time()
+		val = editDistance(wordOne, wordTwo)
+		# val = editDistance(len(wordOne)-1, len(wordTwo)-1, wordOne, wordTwo)
+		# print(str(val) + ' - Time for "' + sugg + '" : ' + str(time.time()-t) + '\n')
 		dist.append(val)
 
 	tempProbArray = []
