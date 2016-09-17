@@ -117,13 +117,13 @@ def detectSingleReversal(incorr, candidate):
         if(sumOfAsciDiff == 0):
             for i in range(len(asciDiff)):
                 if(asciDiff[i] != 0):
-                    if(r1 != 0): 
+                    if(r1 == 0): 
                         r1 = incorr[i]
                         r2 = candidate[i]
                     else: 
                         if(r1 != candidate[i]):
                             return(r1, r2, False)
-
+            print(r1, r2)
             return (r1, r2, True)
         else:
             return (r1, r2, False)
@@ -230,11 +230,11 @@ def get_bayesian_probabilities(incorr, suggestions):
 
             if list[j][2] == 'Reversal':
                 if a == 0:
-                    each_candi['rev1'] = list[j][0]
+                    each_candi['rev1'] = list[j][0] + list[j][1]
                     a = a + 1
                 else:
                     if a == 1:
-                        each_candi['rev2'] = list[j][1]        
+                        each_candi['rev2'] = 0        
 
 
         candidates.append(each_candi)
