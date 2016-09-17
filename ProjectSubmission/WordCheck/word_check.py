@@ -54,7 +54,8 @@ timeBayesianProbArray = time.time() - t
 # calculating the total probability
 t = time.time()
 # totalProbabilityArray = [pow(pow(0.6*p, 2)+pow(0.4*b, 2), 0.5) for p, b in zip(phoneticProbabilityArray, bayesianProbabilityArray)]
-totalProbabilityArray = [0.6*p+0.4*b for p, b in zip(phoneticProbabilityArray, bayesianProbabilityArray)]
+# totalProbabilityArray = [0.6*p+0.4*b for p, b in zip(phoneticProbabilityArray, bayesianProbabilityArray)]
+totalProbabilityArray = [p*b for p, b in zip(phoneticProbabilityArray, bayesianProbabilityArray)]
 # totalProbabilityArray = [1*b for b in phoneticProbabilityArray]
 tempSum = sum(totalProbabilityArray)
 for i in range(0, len(collectionSet)):
