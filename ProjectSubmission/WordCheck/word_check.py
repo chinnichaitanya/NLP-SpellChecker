@@ -12,7 +12,7 @@ def fetch_bkTree_data():
 		print('BK-Tree data already exists in the filepath. Loading it...')
 
 		bkTree_file = open(filepath, 'rb')
-		bkTree = pickle.load(bkTree_file)		
+		bkTree = pickle.load(bkTree_file)	
 		
 		print('Done!')
 		
@@ -39,6 +39,12 @@ incorrectWord = input('Please enter the incorrect word: ')
 # generating the collection set for the given incorrect word
 t = time.time()
 collectionSet = getCandidates(bkTree, incorrectWord, editDistance)
+if(len(collectionSet) == 0 and editDistance == 2):
+	print('No candidates found for edit distance = ', editDistance)
+	editDistance += 1
+	print('Trying for edit distance = ', editDistance)
+	collectionSet = getCandidates(bkTree, incorrectWord, editDistance)
+
 timeCollectionSet = time.time() - t
 
 # calculating the phonetic probability of candidates
