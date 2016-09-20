@@ -31,12 +31,11 @@ class BKTree:
 
         self.distfn = distfn
 
-        it = iter(words)
-        root = next(it)
+        root = words[0]
         self.tree = (root, {})
 
-        for i in it:
-            self._add_word(self.tree, i.lower())
+        for i in words:
+            self._add_word(self.tree, i.lower().strip())
 
         print('Successfully generated the BK-Tree of the given dictionary!')
 
@@ -88,7 +87,7 @@ def levenshtein(s, t):
     for i in range(0, m):
         for j in range(0, n):
             # gives 1 when true and 0 when false
-            cost = t[i] != s[j]
+            cost = t[j] != s[i]
 
             d[i+1].append(min(d[i][j+1]+1, # deletion
                            d[i+1][j]+1, #insertion
@@ -112,6 +111,11 @@ def levenshteinDP(s, t):
         secondRow = [i+2]
     return firstRow[m]
 
-def dict_words(dictfile="./american-english"):
-    # Return an iterator that produces words in the given dictionary.
-    return filter(len, map(str.strip, open(dictfile)))
+# def dict_words(dictfile):
+#     # Return an iterator that produces words in the given dictionary.
+#     return filter(len, map(str.strip, open(dictfile)))
+
+def dict_words(dictfile):
+    file = open(dictfile).read().split()
+    return file
+
