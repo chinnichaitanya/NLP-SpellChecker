@@ -118,10 +118,10 @@ def detectSingleReversal(incorr, candidate):
             for i in range(len(asciDiff)):
                 if(asciDiff[i] != 0):
                     if(r1 == 0): 
-                        r1 = incorr[i]
-                        r2 = candidate[i]
+                        r1 = (i, incorr[i])
+                        r2 = (i, candidate[i])
                     else: 
-                        if(r1 != candidate[i]):
+                        if((r1[1] != candidate[i]) or (abs(r1[0]-i) > 1)):
                             return(r1, r2, False)
             print(r1, r2)
             return (r1, r2, True)
