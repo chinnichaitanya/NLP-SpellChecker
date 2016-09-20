@@ -123,8 +123,7 @@ def detectSingleReversal(incorr, candidate):
                     else: 
                         if((r1[1] != candidate[i]) or (abs(r1[0]-i) > 1)):
                             return(r1, r2, False)
-            print(r1, r2)
-            return (r1, r2, True)
+            return (r1[1], r2[1], True)
         else:
             return (r1, r2, False)
 
