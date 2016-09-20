@@ -48,7 +48,7 @@ def r(a, b):
 	else:
 		return 2
 
-def editDistance(s, t):
+def editexDistance(s, t):
     m, n = len(s), len(t)
     memo = []
     for l in range(0, m):
@@ -71,17 +71,17 @@ def editDistance(s, t):
     return memo[m-1][n-1]
 
 
-def editDistance_2(m, n, wordOne, wordTwo):
+def editexDistance_2(m, n, wordOne, wordTwo):
 	if(m == 0 and n == 0):
 		return 0
 	elif(n == 0):
-		return editDistance(m-1, 0, wordOne, wordTwo) + d(wordOne[m-1], wordOne[m])
+		return editexDistance(m-1, 0, wordOne, wordTwo) + d(wordOne[m-1], wordOne[m])
 	elif(m == 0):
-		return editDistance(0, n-1, wordOne, wordTwo) + d(wordTwo[n-1], wordTwo[n])
+		return editexDistance(0, n-1, wordOne, wordTwo) + d(wordTwo[n-1], wordTwo[n])
 	else:
-		distOne = editDistance(m-1, n, wordOne, wordTwo) + d(wordOne[m-1], wordOne[m])
-		distTwo = editDistance(m, n-1, wordOne, wordTwo) + d(wordTwo[n-1], wordTwo[n])
-		distThree = editDistance(m-1, n-1, wordOne, wordTwo) + r(wordOne[m], wordTwo[n])
+		distOne = editexDistance(m-1, n, wordOne, wordTwo) + d(wordOne[m-1], wordOne[m])
+		distTwo = editexDistance(m, n-1, wordOne, wordTwo) + d(wordTwo[n-1], wordTwo[n])
+		distThree = editexDistance(m-1, n-1, wordOne, wordTwo) + r(wordOne[m], wordTwo[n])
 		tempArr = [distOne, distTwo, distThree]
 		return min(tempArr)
 
@@ -94,8 +94,8 @@ def get_phonetic_probabilities(incorr, suggestions):
 	for sugg in suggestions:
 		wordTwo = sugg.lower()
 		# t = time.time()
-		val = editDistance(wordOne, wordTwo)
-		# val = editDistance(len(wordOne)-1, len(wordTwo)-1, wordOne, wordTwo)
+		val = editexDistance(wordOne, wordTwo)
+		# val = editexDistance(len(wordOne)-1, len(wordTwo)-1, wordOne, wordTwo)
 		# print(str(val) + ' - Time for "' + sugg + '" : ' + str(time.time()-t) + '\n')
 		dist.append(val)
 

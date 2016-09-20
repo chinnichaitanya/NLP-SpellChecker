@@ -79,30 +79,6 @@ class BKTree:
 
         # sort by distance
         return sorted(rec(self.tree))
-    
-
-
-def brute_query(word, words, distfn, n):
-    """A brute force distance query
-    Arguments:
-    word: the word to query for
-    words: a iterable that produces words to test
-    distfn: a binary function that returns the distance between a
-    `word' and an item in `words'.
-    n: an integer that specifies the distance of a matching word
-    
-    """
-    return [i for i in words
-            if distfn(i, word) <= n]
-
-
-def maxdepth(tree, count=0):
-    _, children = t
-    if len(children):
-        return max(maxdepth(i, c+1) for i in children.values())
-    else:
-        return c
-
 
 # http://en.wikibooks.org/wiki/Algorithm_implementation/Strings/Levenshtein_distance#Python
 def levenshtein(s, t):
@@ -111,9 +87,8 @@ def levenshtein(s, t):
     d += [[i] for i in range(1, m+1)]
     for i in range(0, m):
         for j in range(0, n):
-            cost = 1
-            if s[i] == t[j]: 
-                cost = 0
+            # gives 1 when true and 0 when false
+            cost = t[i] != s[j]
 
             d[i+1].append(min(d[i][j+1]+1, # deletion
                            d[i+1][j]+1, #insertion
@@ -121,6 +96,21 @@ def levenshtein(s, t):
                        )
     return d[m][n]
 
+def levenshteinDP(s, t):
+    m, n = len(s), len(t)
+    firstRow = range(0, m+1)
+    secondRow = [1]
+    for i in range(0, n):
+        for j in range(0, m):
+            # gives 1 when true and 0 when false
+            cost = t[i] != s[j]
+
+            val = min(secondRow[j]+1, firstRow[j+1]+1, firstRow[j]+cost)
+            secondRow.append(val)
+
+        firstRow = secondRow
+        secondRow = [i+2]
+    return firstRow[m]
 
 def dict_words(dictfile="./american-english"):
     # Return an iterator that produces words in the given dictionary.
