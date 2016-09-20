@@ -40,9 +40,9 @@ incorrectWord = input('Please enter the incorrect word: ')
 t = time.time()
 collectionSet = getCandidates(bkTree, incorrectWord, editDistance)
 if(len(collectionSet) == 0 and editDistance == 2):
-	print('No candidates found for edit distance = ', editDistance)
+	print('No candidates found for edit distance =', editDistance)
 	editDistance += 1
-	print('Trying for edit distance = ', editDistance)
+	print('Trying for edit distance =', editDistance)
 	collectionSet = getCandidates(bkTree, incorrectWord, editDistance)
 
 timeCollectionSet = time.time() - t
