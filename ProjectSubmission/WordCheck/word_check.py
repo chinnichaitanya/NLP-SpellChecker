@@ -12,7 +12,7 @@ def fetch_bkTree_data():
 		print('BK-Tree data already exists in the filepath. Loading it...')
 
 		bkTree_file = open(filepath, 'rb')
-		bkTree = pickle.load(bkTree_file)
+		bkTree = pickle.load(bkTree_file)		
 		
 		print('Done!')
 		
@@ -20,9 +20,9 @@ def fetch_bkTree_data():
 	else:
 		print('BK-Tree data doesn\'t exist in the filepath.')
 
-		bkTree = BKTree(levenshtein, dict_words('./data/american-english'))
+		bkTree = generateBKTree('./data/american-english')
 		pickle.dump(bkTree, open(filepath, 'wb'))
-		
+
 		return bkTree
 
 # loading the data
@@ -38,8 +38,7 @@ incorrectWord = input('Please enter the incorrect word: ')
 
 # generating the collection set for the given incorrect word
 t = time.time()
-collectionSet = bkTree.query(incorrectWord, editDistance)
-collectionSet = [candidate[1] for candidate in collectionSet]
+collectionSet = getCandidates(bkTree, incorrectWord, editDistance)
 timeCollectionSet = time.time() - t
 
 # calculating the phonetic probability of candidates
@@ -75,7 +74,7 @@ timeSortTotalDict = time.time() - t
 print('\nBelow are the suggestions for the word: ' + incorrectWord + '\n')
 print('Word\t\tProbability\t Rank')
 print('~~~~\t\t~~~~~~~~~~~\t ~~~~')
-for i in range(0, min(10, len(collectionSet)-1)):
+for i in range(0, min(10, len(collectionSet))):
 	print(str(totalDict[i][0]) + '\t\t' + str(round(100*totalDict[i][1], 2)) + '%\t\t Rank #' + str(i+1))
 
 print('\n\n##### Times (in sec) ####')
