@@ -44,20 +44,14 @@ def levenshtein_edits(s, t):
     edit_list = [];
     m, n = len(s), len(t)
     d = [range(n+1)]
-    # print d
     d += [[i] for i in range(1,m+1)]
-    # print m
     for i in range(0,m):
         for j in range(0,n):
             cost = 1
             if s[i] == t[j]: cost = 0
 
-            d[i+1].append( min(d[i][j+1]+1, # deletion
-                               d[i+1][j]+1, #insertion
-                               d[i][j]+cost) #substitution
-                           )
+            d[i+1].append(min(d[i][j+1]+1, d[i+1][j]+1, d[i][j]+cost))
    
-    # print d
     k = len(s)
     l = len(t)
     while((k>0) or (l>0)):
@@ -66,7 +60,6 @@ def levenshtein_edits(s, t):
         elif (l==1 and k != 1):
           temp_min = d[k-1][l]; another_flag=1
           k = k-1
-          # print "I came here"
           if not (edits(t[l-1],t[l-1]+s[k],"Addition") in edit_list) :
             edit_list.append(edits(t[l-1],t[l-1]+s[k],"Addition"))
         elif (k==1 and l != 1):
@@ -86,10 +79,7 @@ def levenshtein_edits(s, t):
               k = k-1; l = l-1
               if not (edits(t[l],s[k],"Substitution") in edit_list) :
                 edit_list.append(edits(t[l],s[k],"Substitution"))
-                # print "Printing from substitution"
-                # print t[l]
-                # print s
-                # print s[k]
+
           elif (temp_min == d[k][l-1]):
             l = l-1
             if not (edits(t[l-1:l+1],t[l-1],"Removal") in edit_list) :
@@ -126,10 +116,6 @@ def detectSingleReversal(incorr, candidate):
             return (r1[1], r2[1], True)
         else:
             return (r1, r2, False)
-
-
-# candidates=[{'word':'hello','del1':'ll','del2':0,'sub1':'la','sub2':0,'ins1':0,'ins2':0,'rev1':0,'rev2':0,'score':0},
-#             {'word':'held','del1':0,'del2':0,'sub1':'od','sub2':0,'ins1':0,'ins2':0,'rev1':0,'rev2':0,'score':0}]
 
 def get_bayesian_probabilities(incorr, suggestions):
 
@@ -242,36 +228,36 @@ def get_bayesian_probabilities(incorr, suggestions):
     for i in range(0, len(candidates)):
 
         if candidates[i]['del1'] != 0:
-            del_score = del_confusion[candidates[i]['del1']]/(corpus_co[candidates[i]['del1']])
+            del_score = del_confusion.get(candidates[i]['del1'], 0.5)/corpus_co.get(candidates[i]['del1'], 1)
             if candidates[i]['del2'] != 0:
-                del_score = del_score*del_confusion[candidates[i]['del2']]/(corpus_co[candidates[i]['del2']])
+                del_score = del_score*del_confusion.get(candidates[i]['del2'], 0.5)/corpus_co.get(candidates[i]['del2'], 1)
             # if(del_score == 0):
                 # del_score += 0.5
         else:
             del_score = 1
 
         if candidates[i]['sub1'] != 0:
-            sub_score = sub_confusion[candidates[i]['sub1']]/(corpus_single[candidates[i]['sub1'][1]])
+            sub_score = sub_confusion.get(candidates[i]['sub1'], 0.5)/corpus_single.get(candidates[i]['sub1'][1], 1)
             if candidates[i]['sub2'] != 0:
-                sub_score = sub_score*sub_confusion[candidates[i]['sub2']]/(corpus_single[candidates[i]['sub2'][1]])
+                sub_score = sub_score*sub_confusion.get(candidates[i]['sub2'], 0.5)/corpus_single.get(candidates[i]['sub2'][1], 1)
             # if(sub_score == 0):
                 # sub_score += 0.5
         else:
             sub_score = 1
 
         if candidates[i]['ins1'] != 0:
-            ins_score = ins_confusion[candidates[i]['ins1']]/(corpus_single[candidates[i]['ins1'][1]])
+            ins_score = ins_confusion.get(candidates[i]['ins1'], 0.5)/corpus_single.get(candidates[i]['ins1'][1], 1)
             if candidates[i]['ins2'] != 0:
-                ins_score = ins_score*ins_confusion[candidates[i]['ins2']]/(corpus_single[candidates[i]['ins2'][1]])
+                ins_score = ins_score*ins_confusion.get(candidates[i]['ins2'], 0.5)/corpus_single.get(candidates[i]['ins2'][1], 1)
             # if(ins_score == 0):
                 # ins_score += 0.5
         else:
             ins_score = 1
 
         if candidates[i]['rev1'] != 0:
-            rev_score = rev_confusion[candidates[i]['rev1']]/(corpus_co[candidates[i]['rev1']])
+            rev_score = rev_confusion.get(candidates[i]['rev1'], 0.5)/corpus_co.get(candidates[i]['rev1'], 1)
             if candidates[i]['rev2'] != 0:
-                rev_score = rev_score*rev_confusion[candidates[i]['rev2']]/(corpus_co[candidates[i]['rev2']])
+                rev_score = rev_score*rev_confusion.get(candidates[i]['rev2'], 0.5)/corpus_co.get(candidates[i]['rev2'], 1)
             # if(rev_score == 0):
                 # rev_score += 0.5
         else:
@@ -286,7 +272,7 @@ def get_bayesian_probabilities(incorr, suggestions):
         # print(candidates[i]['word'])
         # print(del_score, sub_score, ins_score, word_frq_smoothed)
         # print('')
-        candidates[i]['score'] = del_score*sub_score*ins_score*word_frq_smoothed
+        candidates[i]['score'] = del_score*sub_score*ins_score*rev_score*word_frq_smoothed
 
         sum = sum + candidates[i]['score']
 

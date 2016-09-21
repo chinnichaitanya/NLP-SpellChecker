@@ -26,7 +26,7 @@ def fetch_bkTree_data():
 		return bkTree
 
 # loading the data
-editDistance = 2
+editDistance = 3
 
 t = time.time()
 bkTree = fetch_bkTree_data()
@@ -39,7 +39,7 @@ incorrectWord = input('Please enter the incorrect word: ')
 # generating the collection set for the given incorrect word
 t = time.time()
 collectionSet = getCandidates(bkTree, incorrectWord, editDistance)
-if(len(collectionSet) == 0 and editDistance == 2):
+if(len(collectionSet) == 0):
 	print('No candidates found for edit distance =', editDistance)
 	editDistance += 1
 	print('Trying for edit distance =', editDistance)
