@@ -1,5 +1,5 @@
 class Trie:
-	def __init__(self, dictPath):
+	def __init__(self, dictPath=None):
 		self.wordAtNode = None
 		self.children = {}
 
@@ -13,7 +13,7 @@ class Trie:
 		trieNode = self
 		for letter in newWord:
 			if letter not in trieNode.children:
-				trieNode.children[letter] = Trie(None)
+				trieNode.children[letter] = Trie()
 
 			trieNode = trieNode.children[letter]
 
