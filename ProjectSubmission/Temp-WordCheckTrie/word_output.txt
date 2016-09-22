@@ -1,0 +1,5 @@
+distarct	distract	99.98	distance	0.01	distinct	0.01	district	0.0	distant	0.0	distort	0.0
+belive	believe	95.37	believed	2.94	believes	1.41	believer	0.24	behave	0.02	beside	0.02	byline	0.0	beloved	0.0	betide	0.0	live	0.0
+comitte	committee	77.82	committed	22.18	colette	0.0	comte	0.0	comity	0.0	omitted	0.0	commute	0.0	compute	0.0	compete	0.0	compote	0.0
+hellpp	help	100.0	hellos	0.0	helps	0.0	hell	0.0	heller	0.0	hell's	0.0	hello	0.0
+mischvus	mischievous	99.98	missives	0.02	miscalls	0.0	miscasts	0.0	missus	0.0	viscous	0.0	viscus	0.0	miscue	0.0	mitch's	0.0	miscues	0.0
