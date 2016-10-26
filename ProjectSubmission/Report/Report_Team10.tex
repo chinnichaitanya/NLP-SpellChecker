@@ -163,7 +163,7 @@ For example consider \textit{ae}, we search in the whole corpus for occurrence o
 		\subsection{Context based probability calculation}
 			We started implementing context based spell check algorithm on similar lines with the one described in \cite{bayesian_hybrid}. After tokenizing the sentence, we are checking for the common confusion words that usually occur. We then take confusion sets for each ambiguous word from the data present beforehand. For each word in the confusion set of a target word, we take a set of context words within a $\pm3$ window frame and find their co-occurrences with the target word from the corpus(these word co-occurrence frequencies were generated beforehand) and find the posterior probability of words in confusion set applying bayesian rule and taking the independence of likelihoods. The word which gives maximum probability is taken as the target word.
 			\begin{equation*}
-				P(w_{j}/c_{(-3,3)})=\underset{i=-3}{\overset{+3}{\prod}}P(c_{i}/w_{j})P(w_{j})
+				P(w_{j}|c_{[-3,3]})=\underset{i=-3}{\overset{+3}{\prod}}P(c_{i}|w_{j})P(w_{j})
 			\end{equation*}
 		\subsection{Collocations}
 			Firstly we generated frequently occurring parts of speech tags along with a word for all the words in our corpus. We took a window length of $2$ word distance from target word in all possible ways that includes our word and count the POS sequences that occur with their frequencies.\\

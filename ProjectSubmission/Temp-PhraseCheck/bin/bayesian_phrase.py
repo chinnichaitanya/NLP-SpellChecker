@@ -227,21 +227,22 @@ def get_bayesian_probabilities(incorr, suggestions):
         candidates.append(each_candi)
 
     sum = 0
+    epsilon = 0.0000001
     for i in range(0, len(candidates)):
 
         if candidates[i]['del1'] != 0:
             if(corpus_co.get(candidates[i]['del1'], 1) != 0):
                 del_score = del_confusion.get(candidates[i]['del1'], 0.5)/corpus_co.get(candidates[i]['del1'], 1)
             else:
-                del_score = 0.01
+                del_score = epsilon
 
             if candidates[i]['del2'] != 0 and corpus_co.get(candidates[i]['del2'], 1) != 0:
                 del_score = del_score*del_confusion.get(candidates[i]['del2'], 0.5)/corpus_co.get(candidates[i]['del2'], 1)
             else:
-                del_score *= 0.01
+                del_score *= epsilon
 
             if(del_score == 0):
-                del_score += 0.5
+                del_score += epsilon
         else:
             del_score = 1
 
@@ -249,15 +250,15 @@ def get_bayesian_probabilities(incorr, suggestions):
             if(corpus_single.get(candidates[i]['sub1'][1], 1) != 0):
                 sub_score = sub_confusion.get(candidates[i]['sub1'], 0.5)/corpus_single.get(candidates[i]['sub1'][1], 1)
             else:
-                sub_score = 0.01
+                sub_score = epsilon
 
             if candidates[i]['sub2'] != 0 and corpus_single.get(candidates[i]['sub2'][1], 1) != 0:
                 sub_score = sub_score*sub_confusion.get(candidates[i]['sub2'], 0.5)/corpus_single.get(candidates[i]['sub2'][1], 1)
             else:
-                sub_score *= 0.01          
+                sub_score *= epsilon      
 
             if(sub_score == 0):
-                sub_score += 0.5
+                sub_score += epsilon
         else:
             sub_score = 1
 
@@ -265,15 +266,15 @@ def get_bayesian_probabilities(incorr, suggestions):
             if(corpus_single.get(candidates[i]['ins1'][1], 1) != 0):
                 ins_score = ins_confusion.get(candidates[i]['ins1'], 0.5)/corpus_single.get(candidates[i]['ins1'][1], 1)
             else:
-                ins_score = 0.01
+                ins_score = epsilon
 
             if candidates[i]['ins2'] != 0 and corpus_single.get(candidates[i]['ins2'][1], 1) != 0:
                 ins_score = ins_score*ins_confusion.get(candidates[i]['ins2'], 0.5)/corpus_single.get(candidates[i]['ins2'][1], 1)
             else:
-                ins_score *= 0.01
+                ins_score *= epsilon
 
             if(ins_score == 0):
-                ins_score += 0.5
+                ins_score += epsilon
         else:
             ins_score = 1
 
@@ -281,7 +282,7 @@ def get_bayesian_probabilities(incorr, suggestions):
             if(corpus_co.get(candidates[i]['rev1'], 1) != 0):
                 rev_score = rev_confusion.get(candidates[i]['rev1'], 0.5)/corpus_co.get(candidates[i]['rev1'], 1)
             else:
-                rev_score = 0.5
+                rev_score = epsilon
 
             if candidates[i]['rev2'] != 0 and corpus_co.get(candidates[i]['rev2'], 1) != 0:
                 rev_score = rev_score*rev_confusion.get(candidates[i]['rev2'], 0.5)/corpus_co.get(candidates[i]['rev2'], 1)
@@ -289,7 +290,7 @@ def get_bayesian_probabilities(incorr, suggestions):
                 rev_score *= 0
 
             if(rev_score == 0):
-                rev_score += 0.5
+                rev_score += epsilon
         else:
             rev_score = 1
 
